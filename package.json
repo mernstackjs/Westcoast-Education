@@ -1,0 +1,20 @@
+{
+  "name": "westcoast-education",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mernstackjs/Westcoast-Education.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mernstackjs/Westcoast-Education/issues"
+  },
+  "homepage": "https://github.com/mernstackjs/Westcoast-Education#readme"
+}
