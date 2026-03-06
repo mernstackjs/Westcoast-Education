@@ -1,0 +1,31 @@
+:root {
+  /* Primary Brand Colors */
+  --color-primary: #2c3e50;
+  --color-primary-light: #3d566e;
+  --color-primary-dark: #1a252f;
+
+  /* Accent Color */
+  --color-accent: #3498db;
+  --color-accent-hover: #2980b9;
+
+  /* Backgrounds */
+  --color-bg-main: #f4f6f8;
+  --color-bg-sidebar: #2c3e50;
+  --color-bg-card: #ffffff;
+
+  /* Text Colors */
+  --color-text-main: #2d3436;
+  --color-text-light: #ffffff;
+  --color-text-muted: #7f8c8d;
+
+  /* Borders */
+  --color-border: #e0e6ed;
+
+  /* Status Colors */
+  --color-success: #27ae60;
+  --color-warning: #f39c12;
+  --color-danger: #e74c3c;
+
+  /* Hover */
+  --color-hover: #ecf0f1;
+}
