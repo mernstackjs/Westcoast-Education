@@ -1,1 +1,73 @@
-export function siteCoursePage() {}
+let allCourses = [];
+
+async function loadCatalog() {
+  const res = await fetch('http://localhost:3001/courses');
+  const data = await res.json();
+  allCourses = data;
+  renderCourses(data);
+}
+
+function renderCourses(courses) {
+  const grid = document.getElementById('catalog-grid');
+
+  grid.innerHTML = courses
+    .map(
+      (course) => `
+      <div class="course-card">
+        <div class="image-container">
+          <span class="category-badge">${course.category || 'Webb'}</span>
+          <img src="${course.image}" alt="${course.title}">
+        </div>
+
+        <div class="course-info">
+          <h3>${course.title}</h3>
+
+          <div class="course-stats">
+            <span>${course.level || 'Medel nivå'}</span>
+            <span>${course.duration || '12 veckor'}</span>
+          </div>
+
+          <div class="course-footer">
+            <span class="price">${course.price} SEK</span>
+            <a href="/src/student/course-details/course-details.html?id=${course.id}" class="btn-enroll">Starta kurs</a>
+          </div>
+        </div>
+      </div>
+    `,
+    )
+    .join('');
+}
+
+document.getElementById('courseSearch').addEventListener('input', (e) => {
+  const value = e.target.value.toLowerCase();
+
+  const filtered = allCourses.filter((course) =>
+    course.title.toLowerCase().includes(value),
+  );
+
+  renderCourses(filtered);
+});
+
+document.querySelectorAll('.filter-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document
+      .querySelectorAll('.filter-btn')
+      .forEach((b) => b.classList.remove('active'));
+
+    btn.classList.add('active');
+
+    const category = btn.dataset.category;
+
+    if (category === 'Alla') {
+      renderCourses(allCourses);
+    } else {
+      const filtered = allCourses.filter(
+        (course) => course.category === category,
+      );
+
+      renderCourses(filtered);
+    }
+  });
+});
+
+loadCatalog();

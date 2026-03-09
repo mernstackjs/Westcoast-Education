@@ -1,11 +1,107 @@
 <!doctype html>
-<html lang="en">
+<html lang="sv">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Westcoast Education Student Portal</title>
-    <link rel="stylesheet" href="../assets/colors.css" />
+    <title>Westcoast Education Studentportal</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link rel="stylesheet" href="../../assets/colors.css" />
+    <link rel="stylesheet" href="../style/global.css" />
+    <link rel="stylesheet" href="../style/header.css" />
     <link rel="stylesheet" href="site.css" />
+
+    <script type="module">
+      import { renderHeader } from '../components/header.js';
+
+      renderHeader();
+    </script>
   </head>
-  <body></body>
+  <body>
+    <header id="header"></header>
+
+    <main class="landing-page">
+      <section class="hero">
+        <div class="hero-content">
+          <h1>Bygg din framtid med <span>WestCoast</span></h1>
+          <p>
+            Lär dig nya saker med våra onlinekurser. Du kan studera i din egen
+            takt med lärare som är experter.
+          </p>
+          <div class="hero-btns">
+            <a href="/src/student/course/course.html" class="btn-primary"
+              >Se kurser</a
+            >
+            <button class="btn-secondary">Se demo</button>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
+            alt="Studenter som arbetar"
+          />
+        </div>
+      </section>
+
+      <section class="stats-bar card">
+        <div class="stat-item">
+          <strong>15k+</strong>
+          <p>Aktiva studenter</p>
+        </div>
+        <div class="stat-item">
+          <strong>200+</strong>
+          <p>Erfarna lärare</p>
+        </div>
+        <div class="stat-item">
+          <strong>4.9/5</strong>
+          <p>Genomsnittligt betyg</p>
+        </div>
+      </section>
+
+      <section class="featured-courses">
+        <div class="section-header">
+          <h2>Utvalda kurser</h2>
+          <a href="/src/student/course/course.html" class="view-all"
+            >Se alla →</a
+          >
+        </div>
+        <div class="course-grid" id="course-grid"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>West<span>Coast</span></h3>
+          <p>
+            Vi hjälper människor att lära sig nya saker med enkla och bra
+            onlinekurser för alla.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Utforska</h4>
+          <ul>
+            <li><a href="#">Alla kurser</a></li>
+            <li><a href="#">Priser</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Företag</h4>
+          <ul>
+            <li><a href="#">Om oss</a></li>
+            <li><a href="#">Kontakt</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 WestCoast Education. Alla rättigheter reserverade.</p>
+      </div>
+    </footer>
+    <script src="site.js"></script>
+  </body>
 </html>

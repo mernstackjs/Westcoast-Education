@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kurser</title>
+
+    <link rel="stylesheet" href="../../assets/colors.css" />
+    <link rel="stylesheet" href="../style/global.css" />
+    <link rel="stylesheet" href="../style/header.css" />
+    <link rel="stylesheet" href="course.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+    />
+
+    <script src="course.js" defer></script>
+    <script type="module">
+      import { renderHeader } from '../components/header.js';
+
+      renderHeader();
+    </script>
+  </head>
+
+  <body>
+    <header id="header"></header>
+
+    <main class="catalog-page">
+      <nav class="breadcrumb">Hem › <span>Kurser</span></nav>
+
+      <section class="catalog-header">
+        <h1>Hitta en kurs</h1>
+        <p>Här kan du se alla våra kurser. Välj en kurs och börja studera.</p>
+
+        <div class="filter-container">
+          <div class="search-wrapper">
+            <input
+              type="text"
+              id="courseSearch"
+              placeholder="Sök kurs t.ex. React eller Python"
+            />
+          </div>
+
+          <button class="filter-btn active" data-category="Alla">Alla</button>
+          <button class="filter-btn" data-category="Webbutveckling">
+            Webb
+          </button>
+          <button class="filter-btn" data-category="Design">Design</button>
+          <button class="filter-btn" data-category="Business">Business</button>
+          <button class="filter-btn" data-category="Marknadsföring">
+            Marknad
+          </button>
+        </div>
+      </section>
+
+      <div class="course-grid" id="catalog-grid"></div>
+
+      <div class="pagination">
+        <button class="page-nav">‹</button>
+        <button class="page-num active">1</button>
+        <button class="page-num">2</button>
+        <button class="page-num">3</button>
+        <button class="page-nav">›</button>
+      </div>
+    </main>
+  </body>
+</html>
