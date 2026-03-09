@@ -29,5 +29,41 @@
     <main class="details-page">
       <div id="course-container"></div>
     </main>
+
+    <div id="bookingModal" class="modal-overlay">
+      <div class="modal-card">
+        <h2>Slutför din bokning</h2>
+        <p>Vänligen fyll i dina uppgifter för att slutföra bokningen.</p>
+
+        <form id="bookingForm">
+          <div class="form-group">
+            <label for="modalPhone">Telefonnummer</label>
+            <input
+              type="tel"
+              id="modalPhone"
+              placeholder="t.ex. 070-123 45 67"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="modalAddress">Faktureringsadress</label>
+            <textarea
+              id="modalAddress"
+              rows="3"
+              placeholder="Gatuadress, Postnummer, Ort"
+              required
+            ></textarea>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" id="closeModal" class="btn-cancel">
+              Avbryt
+            </button>
+            <button type="submit" class="btn-confirm">Bekräfta bokning</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

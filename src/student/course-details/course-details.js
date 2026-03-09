@@ -128,6 +128,11 @@ async function addBookingEvent(courseId) {
   const user = JSON.parse(localStorage.getItem('user'));
   const buttons = document.querySelectorAll('#bookCourseBtn, #bookCourseBtn2');
 
+  // Modal Elements
+  const modal = document.getElementById('bookingModal');
+  const bookingForm = document.getElementById('bookingForm');
+  const closeModal = document.getElementById('closeModal');
+
   const disableButtons = () => {
     buttons.forEach((btn) => {
       btn.textContent = 'Redan bokad';
@@ -152,6 +157,13 @@ async function addBookingEvent(courseId) {
     }
   }
 
+  if (closeModal) {
+    closeModal.onclick = () => {
+      modal.style.display = 'none';
+      bookingForm.reset();
+    };
+  }
+
   buttons.forEach((btn) => {
     btn.addEventListener('click', async () => {
       if (!user) {
@@ -159,47 +171,67 @@ async function addBookingEvent(courseId) {
         return;
       }
 
-      const allBookingsRes = await fetch('http://localhost:3001/bookings');
-      const allBooking = await allBookingsRes.json();
+      modal.style.display = 'flex';
 
-      // Generate new booking ID
-      let newIdNum = 101;
-      if (allBooking.length > 0) {
-        const numericIds = allBooking
-          .map((b) => parseInt(b.id.replace('#BK-', ''), 10))
-          .filter((n) => !isNaN(n));
+      if (bookingForm) {
+        bookingForm.onsubmit = async (e) => {
+          e.preventDefault();
 
-        if (numericIds.length > 0) {
-          const maxId = Math.max(...numericIds);
-          newIdNum = maxId + 1;
-        }
-      }
+          const phone = document.getElementById('modalPhone').value;
+          const address = document.getElementById('modalAddress').value;
 
-      const bookingId = `#BK-${newIdNum}`;
+          try {
+            const allBookingsRes = await fetch(
+              'http://localhost:3001/bookings',
+            );
+            const allBooking = await allBookingsRes.json();
 
-      const booking = {
-        id: bookingId,
-        userId: user.id,
-        courseId: courseId,
-        status: 'pending',
-        date: new Date().toISOString().split('T')[0],
-      };
+            // Generate new booking ID
+            let newIdNum = 101;
+            if (allBooking.length > 0) {
+              const numericIds = allBooking
+                .map((b) => parseInt(b.id.replace('#BK-', ''), 10))
+                .filter((n) => !isNaN(n));
 
-      try {
-        const response = await fetch('http://localhost:3001/bookings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(booking),
-        });
+              if (numericIds.length > 0) {
+                const maxId = Math.max(...numericIds);
+                newIdNum = maxId + 1;
+              }
+            }
 
-        if (response.ok) {
-          alert('Din bokning är skickad. Admin måste godkänna.');
-          disableButtons();
-        } else {
-          alert('Bokningen misslyckades. Försök igen.');
-        }
-      } catch (error) {
-        console.error('Fel vid bokning:', error);
+            const bookingId = `#BK-${newIdNum}`;
+
+            const booking = {
+              id: bookingId,
+              userId: user.id,
+              courseId: courseId,
+              status: 'pending',
+              date: new Date().toISOString().split('T')[0],
+              phone: phone,
+              address: address,
+            };
+            try {
+              const response = await fetch('http://localhost:3001/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(booking),
+              });
+
+              if (response.ok) {
+                alert('Din bokning är skickad. Admin måste godkänna.');
+                modal.style.display = 'none';
+                bookingForm.reset();
+                disableButtons();
+              } else {
+                alert('Bokningen misslyckades. Försök igen.');
+              }
+            } catch (error) {
+              console.error('Fel vid bokning:', error);
+            }
+          } catch (error) {
+            console.error('Error during booking:', error);
+          }
+        };
       }
     });
   });
