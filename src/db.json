@@ -1,5 +1,76 @@
 {
-  "courses": [],
-  "users": [],
-  "bookings": []
+  "courses": [
+    {
+      "title": "test ",
+      "category": "Design",
+      "level": "Nybörjare",
+      "courseNumber": "GT121",
+      "type": "Online",
+      "startDate": "2026-03-11",
+      "duration": "22 veckor",
+      "description": "jhasbjasasas",
+      "popular": false,
+      "price": 574,
+      "image": "https://res.cloudinary.com/dx74k8fal/image/upload/v1773060407/bt5e4wbee1vktovjhous.png",
+      "id": 1
+    },
+    {
+      "title": "kii labaad",
+      "category": "Webbutveckling",
+      "level": "Avancerad",
+      "courseNumber": "Bg1",
+      "type": "Classroom",
+      "startDate": "2026-03-29",
+      "duration": "10 veckor",
+      "description": "hjakshas",
+      "popular": true,
+      "price": 200,
+      "image": "https://res.cloudinary.com/dx74k8fal/image/upload/v1773068609/i5kdl2iuesxomvhabfm3.png",
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "id": "#ST-101",
+      "name": "Muna Omar",
+      "email": "muna@gmail.com",
+      "password": "12",
+      "role": "student",
+      "joined": "2026-03-09",
+      "course": [],
+      "status": "active"
+    },
+    {
+      "id": "#ST-102",
+      "name": "Ahmed Abdirizaak",
+      "email": "ani@gmail.com",
+      "password": "12",
+      "role": "student",
+      "joined": "2026-03-09",
+      "status": "active",
+      "courses": [
+        {
+          "id": 1,
+          "title": "test ",
+          "enrolledDate": "2026-03-09T14:58:18.527Z"
+        },
+        {
+          "id": 2,
+          "title": "kii labaad",
+          "enrolledDate": "2026-03-09T15:04:17.493Z"
+        }
+      ]
+    }
+  ],
+  "bookings": [
+    {
+      "id": "#BK-101",
+      "userId": "#ST-102",
+      "courseId": 1,
+      "status": "pending",
+      "date": "2026-03-09",
+      "phone": "0102012012",
+      "address": "Test Address"
+    }
+  ]
 }
