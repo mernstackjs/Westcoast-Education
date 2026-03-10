@@ -21,8 +21,93 @@ body {
 .content {
   padding: 2rem;
 }
+.right {
+  flex: 4;
+}
+.page-title {
+  color: var(--color-primary-dark);
+
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 1rem;
+}
+
+.table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: collapse;
+  text-align: left;
+  color: var(--color-text-main);
+}
+
+.table th {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-hover);
+  cursor: default;
+}
+
+.table tbody tr td[colspan='6'] {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 3rem 1rem;
+}
+
+.status {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px; /* Creates a perfect pill shape */
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.status.confirmed {
+  background-color: rgba(39, 174, 96, 0.1);
+  color: var(--color-success);
+  border: 1px solid rgba(39, 174, 96, 0.2);
+}
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 220px;
   height: 100vh;
   background: var(--color-bg-sidebar);
@@ -30,14 +115,23 @@ body {
   padding: 20px;
 }
 
+.sidebar a {
+  color: white;
+}
 .sidebar ul {
   list-style: none;
   padding: 0;
+  margin-top: 2rem;
 }
 
 .sidebar li {
   padding: 12px;
   cursor: pointer;
+}
+
+.sidebar li.active {
+  background: var(--color-primary-light);
+  border-radius: 6px;
 }
 
 .sidebar li:hover {
@@ -57,9 +151,142 @@ button:hover {
   background: var(--color-accent-hover);
 }
 
-.card {
-  background: var(--color-bg-card);
+label {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+input:not([type='checkbox']):not([type='radio']),
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
   border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 20px;
+  border-radius: 6px;
+  display: block;
+}
+
+.popular-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  margin: 1rem 0;
+}
+
+input[type='checkbox'] {
+  width: auto;
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+select {
+  appearance: none;
+}
+
+textarea {
+  resize: none;
+}
+
+/* ------------ RESPONSIVE LAYOUT ------------ */
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    height: auto;
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-top: 0;
+    gap: 8px;
+  }
+
+  .sidebar li {
+    white-space: nowrap;
+    border-radius: 999px;
+    padding-inline: 16px;
+  }
+
+  .content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 1.25rem;
+  }
+
+  .table td,
+  .table th {
+    padding: 10px 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 1rem;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
+
+  .table {
+    font-size: 14px;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 240px;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 30;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  body.menu-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-direction: column;
+    overflow-x: visible;
+    margin-top: 2rem;
+    gap: 4px;
+  }
+
+  .sidebar li {
+    white-space: normal;
+    border-radius: 6px;
+    padding-inline: 12px;
+  }
+}
+
+.admin-portal {
+  background-color: rgb(232, 162, 58);
+  border-radius: 1rem;
+  padding: 0.5rem 1.3rem;
+  cursor: pointer;
 }

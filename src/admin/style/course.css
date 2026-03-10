@@ -1,0 +1,55 @@
+.course-form {
+  margin-top: 20px;
+}
+
+.form-layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.left-form,
+.right-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.image-upload {
+  border: 2px dashed var(--color-border);
+  padding: 30px;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.popular-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.right-form button {
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .form-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .image-upload {
+    padding: 20px;
+  }
+}

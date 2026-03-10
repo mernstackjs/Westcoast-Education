@@ -4,23 +4,42 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Site</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <link rel="stylesheet" href="../assets/colors.css" />
     <link rel="stylesheet" href="style/global.css" />
     <link rel="stylesheet" href="style/header.css" />
+    <link rel="stylesheet" href="style/dashboard.css" />
+    <link rel="stylesheet" href="style/course.css" />
     <script type="module" src="app.js"></script>
   </head>
   <body>
     <div class="container">
       <aside class="sidebar">
-        <h2>Menu</h2>
-        <ul id="sidebar_menu">
-          <li data-page="dashboard">Dashboard</li>
-          <li data-page="students">Student</li>
-          <li data-page="bookings">View Bookings</li>
-        </ul>
+        <div>
+          <h2>Menu</h2>
+          <ul id="sidebar_menu">
+            <li data-page="dashboard">Dashboard</li>
+            <li data-page="course-list">Course List</li>
+            <li data-page="add-course">Add Course</li>
+            <li data-page="students">Student</li>
+            <li data-page="bookings">View Bookings</li>
+          </ul>
+        </div>
+
+        <a href="/src/student/site/index.html">View Site</a>
       </aside>
-      <div>
-        <header>header</header>
+      <div class="right">
+        <header>
+          <button class="menu-toggle" type="button">
+            <span class="material-icons">menu</span>
+          </button>
+          <div class="header-title">Westcoast Education Admin</div>
+
+          <h4 class="admin-portal">Admin Portal</h4>
+        </header>
 
         <main class="content" id="content"></main>
       </div>
