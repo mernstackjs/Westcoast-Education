@@ -39,5 +39,5 @@
 
 
 - **Mitt Konto**
-
+<img width="1432" height="771" alt="Screenshot 2026-03-11 at 23 50 32" src="https://github.com/user-attachments/assets/b33ab64d-1885-43e4-9c41-66939c27b492" />
 
