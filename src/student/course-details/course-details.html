@@ -16,9 +16,13 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
     />
 
-    <script type="module" src="course-details.js" defer></script>
+    <script
+      type="module"
+      src="/dist/student/course-details/course-details.js"
+      defer
+    ></script>
     <script type="module">
-      import { renderHeader } from '../components/header.js';
+      import { renderHeader } from '/dist/student/components/header.js';
 
       renderHeader();
     </script>
@@ -35,12 +39,12 @@
         <h2>Slutför din bokning</h2>
         <p>Vänligen fyll i dina uppgifter för att slutföra bokningen.</p>
 
-        <form id="bookingForm">
+        <form>
           <div class="form-group">
             <label for="modalPhone">Telefonnummer</label>
             <input
               type="tel"
-              id="modalPhone"
+              name="phone"
               placeholder="t.ex. 070-123 45 67"
               required
             />
@@ -49,7 +53,7 @@
           <div class="form-group">
             <label for="modalAddress">Faktureringsadress</label>
             <textarea
-              id="modalAddress"
+              name="address"
               rows="3"
               placeholder="Gatuadress, Postnummer, Ort"
               required

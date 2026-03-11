@@ -1,4 +1,5 @@
 import HttpClient from '../../data/HttpClient.js';
+import { Booking, Course, User } from '../../data/responseTypes.js';
 
 const courseService = new HttpClient('courses');
 const bookingService = new HttpClient('bookings');
@@ -12,9 +13,11 @@ async function loadCourse() {
   const id = getCourseId();
 
   // const res = await fetch(`http://localhost:3001/courses/${id}`);
-  const course = await courseService.get(`/${id}`);
+  const course = await courseService.get<Course>(`/${id}`);
 
-  const container = document.getElementById('course-container');
+  const container = document.querySelector(
+    '#course-container',
+  ) as HTMLDivElement;
 
   container.innerHTML = `
 
@@ -35,7 +38,7 @@ async function loadCourse() {
 <h1>${course.title}</h1>
 
 <p class="course-desc">
-${course.description || 'Denna kurs hjälper dig att lära dig nya saker steg för steg.'}
+${course.description}
 </p>
 
 <div class="course-meta">
@@ -129,14 +132,17 @@ Boka kurs
   addBookingEvent(course.id);
 }
 
-async function addBookingEvent(courseId) {
-  const user = JSON.parse(localStorage.getItem('user'));
-  const buttons = document.querySelectorAll('#bookCourseBtn, #bookCourseBtn2');
+async function addBookingEvent(courseId: number): Promise<void> {
+  const userData = localStorage.getItem('user');
+  const user: User | null = userData ? JSON.parse(userData) : null;
+  const buttons = document.querySelectorAll(
+    '#bookCourseBtn, #bookCourseBtn2',
+  ) as NodeListOf<HTMLButtonElement>;
 
   // Modal Elements
-  const modal = document.getElementById('bookingModal');
-  const bookingForm = document.getElementById('bookingForm');
-  const closeModal = document.getElementById('closeModal');
+  const modal = document.getElementById('bookingModal') as HTMLDivElement;
+  const form = document.querySelector('form') as HTMLFormElement;
+  const closeModal = document.getElementById('closeModal') as HTMLButtonElement;
 
   const disableButtons = () => {
     buttons.forEach((btn) => {
@@ -148,20 +154,21 @@ async function addBookingEvent(courseId) {
   };
 
   if (user) {
-    const safeUserId = encodeURIComponent(user.id);
-    const safeCourseId = encodeURIComponent(courseId);
+    try {
+      const existing = await bookingService.get<Booking[]>(
+        `?userId=${encodeURIComponent(user.id)}&courseId=${courseId}`,
+      );
 
-    const existing = await bookingService.get(
-      `?userId=${safeUserId}&courseId=${safeCourseId}`,
-    );
-
-    if (existing.length > 0) disableButtons();
+      if (existing.length > 0) disableButtons();
+    } catch (err) {
+      console.error('Error checking existing bookings', err);
+    }
   }
 
-  if (closeModal) {
+  if (closeModal && modal) {
     closeModal.onclick = () => {
       modal.style.display = 'none';
-      bookingForm.reset();
+      form?.reset();
     };
   }
 
@@ -174,21 +181,24 @@ async function addBookingEvent(courseId) {
 
       modal.style.display = 'flex';
 
-      if (bookingForm) {
-        bookingForm.onsubmit = async (e) => {
+      if (form) {
+        form.onsubmit = async (e) => {
           e.preventDefault();
 
-          const phone = document.getElementById('modalPhone').value;
-          const address = document.getElementById('modalAddress').value;
+          const formData = new FormData(form);
+
+          const data = Object.fromEntries(formData.entries());
+
+          const { phone, address } = data;
 
           try {
-            const allBookings = await bookingService.get();
+            const allBookings = await bookingService.get<Booking[]>();
 
             const nextId =
               allBookings.length > 0
                 ? Math.max(
                     ...allBookings.map(
-                      (b) => parseInt(b.id.replace('#BK-', '')) || 0,
+                      (b) => parseInt(String(b.id).replace('#BK-', '')) || 0,
                     ),
                   ) + 1
                 : 101;
@@ -212,7 +222,7 @@ async function addBookingEvent(courseId) {
 
               alert('Din bokning är skickad. Admin måste godkänna.');
               modal.style.display = 'none';
-              bookingForm.reset();
+              form.reset();
               disableButtons();
             } catch (error) {
               console.error('Fel vid bokning:', error);

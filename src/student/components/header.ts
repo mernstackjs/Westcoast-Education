@@ -1,7 +1,10 @@
-export function renderHeader() {
-  const user = JSON.parse(localStorage.getItem('user'));
+import { User } from '../../data/responseTypes';
 
-  const headerContainer = document.getElementById('header');
+export function renderHeader() {
+  const userData = localStorage.getItem('user');
+  const user: User | null = userData ? JSON.parse(userData) : null;
+
+  const headerContainer = document.getElementById('header') as HTMLElement;
 
   const navLinks = user
     ? `
@@ -46,9 +49,15 @@ ${navLinks}
      MOBILE MENU LOGIC
   ============================== */
 
-  const menuToggle = headerContainer.querySelector('.menu-toggle');
-  const navWrapper = headerContainer.querySelector('.nav-wrapper');
-  const navLinksElements = headerContainer.querySelectorAll('.nav-link');
+  const menuToggle = headerContainer.querySelector(
+    '.menu-toggle',
+  ) as HTMLButtonElement;
+  const navWrapper = headerContainer.querySelector(
+    '.nav-wrapper',
+  ) as HTMLElement;
+  const navLinksElements = headerContainer.querySelectorAll(
+    '.nav-link',
+  ) as NodeListOf<HTMLAnchorElement>;
 
   menuToggle.addEventListener('click', () => {
     navWrapper.classList.toggle('active');
@@ -61,7 +70,7 @@ ${navLinks}
   });
 
   if (user) {
-    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtn = document.getElementById('logoutBtn') as HTMLAnchorElement;
 
     logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('user');

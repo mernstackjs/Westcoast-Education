@@ -1,24 +1,26 @@
 import HttpClient from '../../data/HttpClient.js';
+import { User } from '../../data/responseTypes.js';
 
-const form = document.getElementById('loginForm');
-const errorMsg = document.getElementById('errorMsg');
+const form = document.querySelector('form') as HTMLFormElement;
+const errorMsg = document.getElementById('errorMsg') as HTMLParagraphElement;
 
 const userService = new HttpClient('users');
 
-form.addEventListener('submit', async (e) => {
+const handleSubmit = async (e: Event) => {
   e.preventDefault();
 
   errorMsg.textContent = '';
 
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  const { email, password } = data;
 
   if (!email || !password) {
     errorMsg.textContent = 'Fyll i alla fält.';
     return;
   }
 
-  const users = await userService.get(`?email=${email}`);
+  const users = await userService.get<User[]>(`?email=${email}`);
 
   if (users.length === 0) {
     errorMsg.textContent = 'Fel e-post eller lösenord.';
@@ -35,4 +37,6 @@ form.addEventListener('submit', async (e) => {
   localStorage.setItem('user', JSON.stringify(user));
 
   window.location.href = '/src/student/site/index.html';
-});
+};
+
+form.addEventListener('submit', handleSubmit);

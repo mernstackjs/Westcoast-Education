@@ -1,6 +1,8 @@
 import HttpClient from '../../data/HttpClient.js';
+import { Booking, Course, User } from '../../data/responseTypes.js';
 
-const user = JSON.parse(localStorage.getItem('user'));
+const userData = localStorage.getItem('user');
+const user: User | null = userData ? JSON.parse(userData) : null;
 const bookingService = new HttpClient('bookings');
 const courseService = new HttpClient('courses');
 
@@ -11,7 +13,7 @@ if (!user) {
 const profileContainer = document.querySelector('.profile-container');
 
 const renderProfile = async () => {
-  if (!profileContainer) return;
+  if (!profileContainer || !user) return;
   profileContainer.innerHTML = '';
 
   // --- Sidebar ---
@@ -47,9 +49,9 @@ const renderProfile = async () => {
   const infoGrid = document.createElement('div');
   infoGrid.classList.add('info-grid');
   infoGrid.innerHTML = `
-    <div class="info-item"><label>E-post</label><p>${user.email}</p></div>
-    <div class="info-item"><label>Medlem sedan</label><p>${new Date(user.joined).toLocaleDateString('sv-SE')}</p></div>
-    <div class="info-item"><label>Status</label><p>${user.status}</p></div>
+    <div class="info-item"><label>E-post</label><p>${user?.email}</p></div>
+    <div class="info-item"><label>Medlem sedan</label><p>${new Date(user?.joined ?? '').toLocaleDateString('sv-SE')}</p></div>
+    <div class="info-item"><label>Status</label><p>${user?.status}</p></div>
   `;
   section.appendChild(infoGrid);
 
@@ -61,14 +63,16 @@ const renderProfile = async () => {
   const bookingsList = document.createElement('div');
   bookingsList.classList.add('bookings-grid');
 
-  const bookings = await bookingService.get(
-    `?userId=${encodeURIComponent(user.id)}`,
+  const bookings = await bookingService.get<Booking[]>(
+    `?userId=${encodeURIComponent(user?.id)}`,
   );
 
   if (bookings.length > 0) {
     for (const b of bookings) {
       try {
-        const courseData = await courseService.get(`?id=${b.courseId}`);
+        const courseData = await courseService.get<Course[]>(
+          `?id=${b.courseId}`,
+        );
         const course = courseData[0];
         if (course) {
           const bookingCard = document.createElement('div');

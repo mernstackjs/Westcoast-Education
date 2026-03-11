@@ -1,19 +1,19 @@
 import HttpClient from '../../data/HttpClient.js';
-
+import { Course } from '../../data/responseTypes.js';
 const courseService = new HttpClient('courses');
-let allCourses = [];
+let allCourses: Course[] = [];
 
-console.log(allCourses);
-
-async function loadCatalog() {
+async function loadCatalog(): Promise<void> {
   // const res = await fetch('http://localhost:3001/courses');
   // const data = await res.json();
   allCourses = await courseService.get();
   renderCourses(allCourses);
 }
 
-function renderCourses(courses) {
-  const grid = document.getElementById('catalog-grid');
+function renderCourses(courses: Course[]) {
+  const grid = document.querySelector('.course-grid') as HTMLDivElement;
+
+  if (!grid) return;
 
   grid.innerHTML = courses
     .map(
@@ -43,8 +43,14 @@ function renderCourses(courses) {
     .join('');
 }
 
-document.getElementById('courseSearch').addEventListener('input', (e) => {
-  const value = e.target.value.toLowerCase();
+const searchInput = document.getElementById('courseSearch') as HTMLInputElement;
+const filterButtons = document.querySelectorAll(
+  '.filter-btn',
+) as NodeListOf<HTMLButtonElement>;
+
+searchInput?.addEventListener('input', (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  const value = target.value.toLowerCase();
 
   const filtered = allCourses.filter((course) =>
     course.title.toLowerCase().includes(value),
@@ -53,7 +59,7 @@ document.getElementById('courseSearch').addEventListener('input', (e) => {
   renderCourses(filtered);
 });
 
-document.querySelectorAll('.filter-btn').forEach((btn) => {
+filterButtons.forEach((btn) => {
   btn.addEventListener('click', () => {
     document
       .querySelectorAll('.filter-btn')

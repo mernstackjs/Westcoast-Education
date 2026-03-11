@@ -1,14 +1,15 @@
 import HttpClient from '../../data/HttpClient.js';
+import { User } from '../../data/responseTypes.js';
 
-const form = document.querySelector('form');
-const errorMsg = document.getElementById('errorMsg');
+const form = document.querySelector('form') as HTMLFormElement;
+const errorMsg = document.getElementById('errorMsg') as HTMLParagraphElement;
 
 const userService = new HttpClient('users');
 
-const handleSubmit = async (e) => {
+const handleSubmit = async (e: Event) => {
   e.preventDefault();
 
-  const formData = new FormData(e.target);
+  const formData = new FormData(form);
   const data = Object.fromEntries(formData.entries());
 
   const { name, email, password } = data;
@@ -25,7 +26,7 @@ const handleSubmit = async (e) => {
   }
 
   // Check if email already exists
-  const check = await userService.get(`?email=${email}`);
+  const check = await userService.get<User[]>(`?email=${email}`);
 
   if (check.length > 0) {
     errorMsg.textContent = 'E-post finns redan.';
@@ -33,7 +34,7 @@ const handleSubmit = async (e) => {
   }
 
   // Fetch all users to generate next student ID
-  const allUsers = await userService.get();
+  const allUsers = await userService.get<User[]>();
 
   // Filter only students
   const students = allUsers.filter((u) => u.role === 'student');
@@ -42,7 +43,7 @@ const handleSubmit = async (e) => {
   let newIdNum = 101;
   if (students.length > 0) {
     const lastId = students
-      .map((u) => parseInt(u.id.replace('#ST-', '')))
+      .map((u) => parseInt(String(u.id).replace('#ST-', '')))
       .sort((a, b) => b - a)[0];
     newIdNum = lastId + 1;
   }

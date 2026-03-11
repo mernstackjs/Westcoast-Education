@@ -1,24 +1,13 @@
 import HttpClient from '../../data/HttpClient.js';
-const menuBtn = document.getElementById('mobile-menu-btn');
-const navWrapper = document.getElementById('nav-wrapper');
+import { Course } from '../../data/responseTypes.js';
 
 const courseService = new HttpClient('courses');
-
-if (menuBtn) {
-  menuBtn.addEventListener('click', () => {
-    navWrapper.classList.toggle('active');
-    const icon = menuBtn.querySelector('.material-symbols-outlined');
-    icon.textContent = navWrapper.classList.contains('active')
-      ? 'close'
-      : 'menu';
-  });
-}
 
 async function fetchCourses() {
   try {
     // const response = await fetch('http://localhost:3001/courses');
-    const courses = await courseService.get();
-    const grid = document.getElementById('course-grid');
+    const courses = await courseService.get<Course[]>();
+    const grid = document.getElementById('course-grid') as HTMLDivElement;
 
     grid.innerHTML = courses
       .map(
