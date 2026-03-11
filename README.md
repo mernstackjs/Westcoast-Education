@@ -35,7 +35,9 @@
 <img width="1440" height="771" alt="Screenshot 2026-03-11 at 23 35 55" src="https://github.com/user-attachments/assets/20b50e24-4d8e-489e-9926-4881ce5fdb9a" />
 
 - **Course List**
+<img width="1440" height="762" alt="Screenshot 2026-03-11 at 23 48 01" src="https://github.com/user-attachments/assets/641ab0a0-87bf-4c05-bb65-d83317e58d7d" />
 
 
 - **Mitt Konto**
+
 
