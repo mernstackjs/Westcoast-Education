@@ -1,5 +1,9 @@
+import HttpClient from '../../data/HttpClient.js';
+
 const form = document.getElementById('loginForm');
 const errorMsg = document.getElementById('errorMsg');
+
+const userService = new HttpClient('users');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -14,8 +18,7 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
-  const res = await fetch(`http://localhost:3001/users?email=${email}`);
-  const users = await res.json();
+  const users = await userService.get(`?email=${email}`);
 
   if (users.length === 0) {
     errorMsg.textContent = 'Fel e-post eller lösenord.';

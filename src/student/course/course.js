@@ -1,10 +1,15 @@
+import HttpClient from '../../data/HttpClient.js';
+
+const courseService = new HttpClient('courses');
 let allCourses = [];
 
+console.log(allCourses);
+
 async function loadCatalog() {
-  const res = await fetch('http://localhost:3001/courses');
-  const data = await res.json();
-  allCourses = data;
-  renderCourses(data);
+  // const res = await fetch('http://localhost:3001/courses');
+  // const data = await res.json();
+  allCourses = await courseService.get();
+  renderCourses(allCourses);
 }
 
 function renderCourses(courses) {

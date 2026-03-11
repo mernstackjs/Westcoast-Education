@@ -1,5 +1,9 @@
+import HttpClient from '../../data/HttpClient.js';
+
 const form = document.querySelector('form');
 const errorMsg = document.getElementById('errorMsg');
+
+const userService = new HttpClient('users');
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -21,17 +25,15 @@ const handleSubmit = async (e) => {
   }
 
   // Check if email already exists
-  const check = await fetch(`http://localhost:3001/users?email=${email}`);
-  const existing = await check.json();
+  const check = await userService.get(`?email=${email}`);
 
-  if (existing.length > 0) {
+  if (check.length > 0) {
     errorMsg.textContent = 'E-post finns redan.';
     return;
   }
 
   // Fetch all users to generate next student ID
-  const allUsersRes = await fetch('http://localhost:3001/users');
-  const allUsers = await allUsersRes.json();
+  const allUsers = await userService.get();
 
   // Filter only students
   const students = allUsers.filter((u) => u.role === 'student');
@@ -60,15 +62,16 @@ const handleSubmit = async (e) => {
   };
 
   // Save new user
-  const res = await fetch('http://localhost:3001/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(newUser),
-  });
+  const user = await userService.post(newUser);
+  // const res = await fetch('http://localhost:3001/users', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify(newUser),
+  // });
 
-  const user = await res.json();
+  // const user = await res.json();
 
   // Save to localStorage
   localStorage.setItem('user', JSON.stringify(user));

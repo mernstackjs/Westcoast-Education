@@ -1,3 +1,8 @@
+import HttpClient from '../../data/HttpClient.js';
+
+const courseService = new HttpClient('courses');
+const bookingService = new HttpClient('bookings');
+
 function getCourseId() {
   const params = new URLSearchParams(window.location.search);
   return params.get('id');
@@ -6,8 +11,8 @@ function getCourseId() {
 async function loadCourse() {
   const id = getCourseId();
 
-  const res = await fetch(`http://localhost:3001/courses/${id}`);
-  const course = await res.json();
+  // const res = await fetch(`http://localhost:3001/courses/${id}`);
+  const course = await courseService.get(`/${id}`);
 
   const container = document.getElementById('course-container');
 
@@ -146,15 +151,11 @@ async function addBookingEvent(courseId) {
     const safeUserId = encodeURIComponent(user.id);
     const safeCourseId = encodeURIComponent(courseId);
 
-    try {
-      const res = await fetch(
-        `http://localhost:3001/bookings?userId=${safeUserId}&courseId=${safeCourseId}`,
-      );
-      const bookings = await res.json();
-      if (bookings.length > 0) disableButtons();
-    } catch (err) {
-      console.error('Kunde inte kontrollera bokningsstatus:', err);
-    }
+    const existing = await bookingService.get(
+      `?userId=${safeUserId}&courseId=${safeCourseId}`,
+    );
+
+    if (existing.length > 0) disableButtons();
   }
 
   if (closeModal) {
@@ -181,28 +182,19 @@ async function addBookingEvent(courseId) {
           const address = document.getElementById('modalAddress').value;
 
           try {
-            const allBookingsRes = await fetch(
-              'http://localhost:3001/bookings',
-            );
-            const allBooking = await allBookingsRes.json();
+            const allBookings = await bookingService.get();
 
-            // Generate new booking ID
-            let newIdNum = 101;
-            if (allBooking.length > 0) {
-              const numericIds = allBooking
-                .map((b) => parseInt(b.id.replace('#BK-', ''), 10))
-                .filter((n) => !isNaN(n));
-
-              if (numericIds.length > 0) {
-                const maxId = Math.max(...numericIds);
-                newIdNum = maxId + 1;
-              }
-            }
-
-            const bookingId = `#BK-${newIdNum}`;
+            const nextId =
+              allBookings.length > 0
+                ? Math.max(
+                    ...allBookings.map(
+                      (b) => parseInt(b.id.replace('#BK-', '')) || 0,
+                    ),
+                  ) + 1
+                : 101;
 
             const booking = {
-              id: bookingId,
+              id: `#BK-${nextId}`,
               userId: user.id,
               courseId: courseId,
               status: 'pending',
@@ -211,20 +203,17 @@ async function addBookingEvent(courseId) {
               address: address,
             };
             try {
-              const response = await fetch('http://localhost:3001/bookings', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(booking),
-              });
+              await bookingService.post(booking);
+              // const response = await fetch('http://localhost:3001/bookings', {
+              //   method: 'POST',
+              //   headers: { 'Content-Type': 'application/json' },
+              //   body: JSON.stringify(booking),
+              // });
 
-              if (response.ok) {
-                alert('Din bokning är skickad. Admin måste godkänna.');
-                modal.style.display = 'none';
-                bookingForm.reset();
-                disableButtons();
-              } else {
-                alert('Bokningen misslyckades. Försök igen.');
-              }
+              alert('Din bokning är skickad. Admin måste godkänna.');
+              modal.style.display = 'none';
+              bookingForm.reset();
+              disableButtons();
             } catch (error) {
               console.error('Fel vid bokning:', error);
             }
