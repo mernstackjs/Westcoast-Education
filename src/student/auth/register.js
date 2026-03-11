@@ -1,14 +1,19 @@
-const form = document.getElementById('registerForm');
+const form = document.querySelector('form');
 const errorMsg = document.getElementById('errorMsg');
 
-form.addEventListener('submit', async (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
+
+  const { name, email, password } = data;
 
   errorMsg.textContent = '';
 
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
+  // const name = document.getElementById('name').value.trim();
+  // const email = document.getElementById('email').value.trim();
+  // const password = document.getElementById('password').value.trim();
 
   if (!name || !email || !password) {
     errorMsg.textContent = 'Fyll i alla fält.';
@@ -70,4 +75,6 @@ form.addEventListener('submit', async (e) => {
 
   // Redirect to home page
   window.location.href = '/src/student/site/index.html';
-});
+};
+
+form.addEventListener('submit', handleSubmit);
