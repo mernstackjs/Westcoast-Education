@@ -66,7 +66,11 @@
   overflow: hidden;
   transition: transform 0.3s ease;
 }
-
+.course-card img {
+  object-fit: cover;
+  height: 250px;
+  width: 100%;
+}
 .course-card:hover {
   transform: translateY(-5px);
 }
