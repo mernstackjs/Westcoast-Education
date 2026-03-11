@@ -1,17 +1,18 @@
-import { createTitle } from '../../scripts/dom.js';
+import { createTitle } from '../../../../dist/scripts/dom.js';
+import AdminHttpClient from '../admin_http_client.js';
 
-const COURSES_API_URL = 'http://localhost:3001/courses';
-const USERS_API_URL = 'http://localhost:3001/users';
-const BOOKINGS_API_URL = 'http://localhost:3001/bookings';
+const bookingService = new AdminHttpClient('bookings');
+const userService = new AdminHttpClient('users');
+const coursesService = new AdminHttpClient('courses');
 
 export async function dashboardPage(container) {
   container.innerHTML = '<p>Laddar dashboard...</p>';
 
   try {
     const [courses, users, bookings] = await Promise.all([
-      fetch(COURSES_API_URL).then((res) => res.json()),
-      fetch(USERS_API_URL).then((res) => res.json()),
-      fetch(BOOKINGS_API_URL).then((res) => res.json()),
+      coursesService.get(),
+      userService.get(),
+      bookingService.get(),
     ]);
 
     // 2. Calculate Stats

@@ -1,14 +1,17 @@
 import HttpClient from '../../data/HttpClient.js';
 import { Booking, Course, User } from '../../data/responseTypes.js';
+import { protectPage } from '../../utils/authGuard.js';
 
 const userData = localStorage.getItem('user');
 const user: User | null = userData ? JSON.parse(userData) : null;
 const bookingService = new HttpClient('bookings');
 const courseService = new HttpClient('courses');
 
-if (!user) {
-  window.location.href = '/src/student/site/index.html';
-}
+// if (!user) {
+//   window.location.href = '/src/student/site/index.html';
+// }
+
+protectPage();
 
 const profileContainer = document.querySelector('.profile-container');
 
@@ -66,6 +69,9 @@ const renderProfile = async () => {
   const bookings = await bookingService.get<Booking[]>(
     `?userId=${encodeURIComponent(user?.id)}`,
   );
+
+  console.log(user.id);
+  console.log(encodeURIComponent(user.id));
 
   if (bookings.length > 0) {
     for (const b of bookings) {

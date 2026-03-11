@@ -15,6 +15,8 @@ const handleSubmit = async (e: Event) => {
   const data = Object.fromEntries(formData.entries());
   const { email, password } = data;
 
+  console.log(email, password);
+
   if (!email || !password) {
     errorMsg.textContent = 'Fyll i alla fält.';
     return;

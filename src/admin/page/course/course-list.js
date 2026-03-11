@@ -1,8 +1,8 @@
-import { createTitle, createCard } from '../../../scripts/dom.js';
+import { createTitle, createCard } from '../../../../dist/scripts/dom.js';
+import AdminHttpClient from '../../admin_http_client.js';
 
-const COURSES_API_URL = 'http://localhost:3001/courses';
-
-export function ListOfCourses(container) {
+const courseService = new AdminHttpClient('courses');
+export async function ListOfCourses(container) {
   const title = createTitle('Kurslista');
   const card = createCard();
 
@@ -35,10 +35,7 @@ export function ListOfCourses(container) {
     `;
 
     try {
-      const response = await fetch(COURSES_API_URL);
-      if (!response.ok) throw new Error('Failed to load courses');
-
-      const courses = await response.json();
+      const courses = await courseService.get();
 
       if (!Array.isArray(courses) || courses.length === 0) {
         tbody.innerHTML = `

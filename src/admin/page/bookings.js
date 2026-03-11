@@ -1,8 +1,9 @@
-import { createTitle } from '../../scripts/dom.js';
+import { createTitle } from '../../../../dist/scripts/dom.js';
+import AdminHttpClient from '../admin_http_client.js';
 
-const BOOKINGS_API_URL = 'http://localhost:3001/bookings';
-const USERS_API_URL = 'http://localhost:3001/users';
-const COURSES_API_URL = 'http://localhost:3001/courses';
+const bookingService = new AdminHttpClient('bookings');
+const userService = new AdminHttpClient('users');
+const coursesService = new AdminHttpClient('courses');
 
 export async function BookingsPage(container) {
   const title = createTitle('Hantera Bokningar');
@@ -37,8 +38,7 @@ export async function BookingsPage(container) {
     tbody.innerHTML = `<tr><td colspan="9">Laddar bokningar...</td></tr>`;
 
     try {
-      const res = await fetch(BOOKINGS_API_URL);
-      const bookings = await res.json();
+      const bookings = await bookingService.get();
 
       if (!bookings.length) {
         tbody.innerHTML = `<tr><td colspan="9">Inga bokningar hittades.</td></tr>`;
@@ -49,13 +49,10 @@ export async function BookingsPage(container) {
 
       for (const booking of bookings) {
         const safeUserId = encodeURIComponent(booking.userId);
-        const [studentRes, courseRes] = await Promise.all([
-          fetch(`${USERS_API_URL}/${safeUserId}`),
-          fetch(`${COURSES_API_URL}/${booking.courseId}`),
+        const [student, course] = await Promise.all([
+          userService.get(`/${safeUserId}`).catch(() => null),
+          coursesService.get(`/${booking.courseId}`).catch(() => null),
         ]);
-
-        const student = studentRes.ok ? await studentRes.json() : null;
-        const course = courseRes.ok ? await courseRes.json() : null;
 
         const tr = document.createElement('tr');
         const bookingDate = booking.date
@@ -91,21 +88,18 @@ export async function BookingsPage(container) {
             approveBtn.textContent = 'Processar...';
 
             try {
-              const bookingUpdate = await fetch(
-                `${BOOKINGS_API_URL}/${encodeURIComponent(booking.id)}`,
-                {
-                  method: 'PATCH',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ status: 'confirmed' }),
-                },
-              );
+              const bookingUpdate = await bookingService.patch(booking.id, {
+                status: 'confirmed',
+              });
 
-              if (!bookingUpdate.ok)
-                throw new Error('Kunde inte uppdatera bokningsstatus');
+              if (student && course) {
+                const currentCourses = student.courses || student.course || [];
 
-              if (student) {
-                const currentCourses = student.courses || [];
-                if (!currentCourses.some((c) => c.id === course.id)) {
+                const isAlreadyEnrolled = currentCourses.some(
+                  (c) => c.id === course.id,
+                );
+
+                if (!isAlreadyEnrolled) {
                   const updatedCourses = [
                     ...currentCourses,
                     {
@@ -114,14 +108,10 @@ export async function BookingsPage(container) {
                       enrolledDate: new Date().toISOString(),
                     },
                   ];
-                  await fetch(
-                    `${USERS_API_URL}/${encodeURIComponent(student.id)}`,
-                    {
-                      method: 'PATCH',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ courses: updatedCourses }),
-                    },
-                  );
+
+                  await userService.patch(student.id, {
+                    courses: updatedCourses,
+                  });
                 }
               }
               loadBookings();

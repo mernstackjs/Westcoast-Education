@@ -1,4 +1,5 @@
 import HttpClient from '../../data/HttpClient.js';
+import { generateNextId } from '../../utils/idGenerator.js';
 const form = document.querySelector('form');
 const errorMsg = document.getElementById('errorMsg');
 const userService = new HttpClient('users');
@@ -26,14 +27,7 @@ const handleSubmit = async (e) => {
     // Filter only students
     const students = allUsers.filter((u) => u.role === 'student');
     // Generate new ID
-    let newIdNum = 101;
-    if (students.length > 0) {
-        const lastId = students
-            .map((u) => parseInt(String(u.id).replace('#ST-', '')))
-            .sort((a, b) => b - a)[0];
-        newIdNum = lastId + 1;
-    }
-    const studentId = `#ST-${newIdNum}`;
+    const studentId = generateNextId(students, '#ST-', 101);
     // Create new user object
     const newUser = {
         id: studentId,

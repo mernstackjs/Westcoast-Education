@@ -1,63 +1,35 @@
 {
   "courses": [
     {
-      "title": "test ",
-      "category": "Design",
-      "level": "Nybörjare",
-      "courseNumber": "GT121",
-      "type": "Online",
-      "startDate": "2026-03-11",
-      "duration": "22 veckor",
-      "description": "jhasbjasasas",
-      "popular": false,
-      "price": 574,
-      "image": "https://res.cloudinary.com/dx74k8fal/image/upload/v1773060407/bt5e4wbee1vktovjhous.png",
-      "id": 1
-    },
-    {
-      "title": "kii labaad",
+      "title": "Test Hello World",
       "category": "Webbutveckling",
-      "level": "Avancerad",
-      "courseNumber": "Bg1",
+      "level": "Nybörjare",
+      "courseNumber": "C01",
       "type": "Classroom",
-      "startDate": "2026-03-29",
-      "duration": "10 veckor",
-      "description": "hjakshas",
+      "startDate": "2026-03-12",
+      "duration": "100 veckor",
+      "description": "Hello World Desc",
       "popular": true,
-      "price": 200,
-      "image": "https://res.cloudinary.com/dx74k8fal/image/upload/v1773068609/i5kdl2iuesxomvhabfm3.png",
-      "id": 2
+      "price": 100,
+      "image": "https://res.cloudinary.com/dx74k8fal/image/upload/v1773267323/xgaumdx1ugw5dutoo8um.png",
+      "id": 1
     }
   ],
   "users": [
     {
       "id": "#ST-101",
-      "name": "Muna Omar",
-      "email": "muna@gmail.com",
-      "password": "12",
-      "role": "student",
-      "joined": "2026-03-09",
-      "course": [],
-      "status": "active"
-    },
-    {
-      "id": "#ST-102",
       "name": "Ahmed Abdirizaak",
-      "email": "ani@gmail.com",
+      "email": "ahmed@gmail.com",
       "password": "12",
       "role": "student",
-      "joined": "2026-03-09",
+      "joined": "2026-03-11",
+      "course": [],
       "status": "active",
       "courses": [
         {
           "id": 1,
-          "title": "test ",
-          "enrolledDate": "2026-03-09T14:58:18.527Z"
-        },
-        {
-          "id": 2,
-          "title": "kii labaad",
-          "enrolledDate": "2026-03-09T15:04:17.493Z"
+          "title": "Test Hello World",
+          "enrolledDate": "2026-03-11T22:33:38.228Z"
         }
       ]
     }
@@ -65,28 +37,12 @@
   "bookings": [
     {
       "id": "#BK-101",
-      "userId": "#ST-102",
+      "userId": "#ST-101",
       "courseId": 1,
       "status": "confirmed",
-      "date": "2026-03-09",
-      "phone": "0102012012",
-      "address": "Test Address"
-    },
-    {
-      "id": "#BK-102",
-      "userId": "#ST-103",
-      "courseId": 1,
-      "status": "pending",
-      "date": "2026-03-11"
-    },
-    {
-      "id": "#BK-103",
-      "userId": "#ST-103",
-      "courseId": 2,
-      "status": "pending",
       "date": "2026-03-11",
-      "phone": "867",
-      "address": "hjas"
+      "phone": "e",
+      "address": "ewds"
     }
   ]
 }

@@ -1,5 +1,6 @@
 import HttpClient from '../../data/HttpClient.js';
 import { User } from '../../data/responseTypes.js';
+import { generateNextId } from '../../utils/idGenerator.js';
 
 const form = document.querySelector('form') as HTMLFormElement;
 const errorMsg = document.getElementById('errorMsg') as HTMLParagraphElement;
@@ -40,15 +41,7 @@ const handleSubmit = async (e: Event) => {
   const students = allUsers.filter((u) => u.role === 'student');
 
   // Generate new ID
-  let newIdNum = 101;
-  if (students.length > 0) {
-    const lastId = students
-      .map((u) => parseInt(String(u.id).replace('#ST-', '')))
-      .sort((a, b) => b - a)[0];
-    newIdNum = lastId + 1;
-  }
-
-  const studentId = `#ST-${newIdNum}`;
+  const studentId = generateNextId(students, '#ST-', 101);
 
   // Create new user object
   const newUser = {

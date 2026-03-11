@@ -1,4 +1,7 @@
-import { createTitle } from '../../scripts/dom.js';
+import { createTitle } from '../../../../dist/scripts/dom.js';
+import AdminHttpClient from '../admin_http_client.js';
+
+const userService = new AdminHttpClient('users');
 
 export async function ListOfStudentsPage(container) {
   const title = createTitle('Students');
@@ -10,8 +13,7 @@ export async function ListOfStudentsPage(container) {
 
   let students = [];
   try {
-    const res = await fetch('http://localhost:3001/users');
-    const users = await res.json();
+    const users = await userService.get();
 
     // Only student users
     students = users.filter((u) => u.role === 'student');
@@ -27,11 +29,11 @@ export async function ListOfStudentsPage(container) {
         year: 'numeric',
       });
 
-      console.log(student);
       const courseNames = student?.courses?.length
         ? student.courses.map((c) => c.title || c).join(', ')
         : '-';
 
+      console.log(student);
       const statusClass =
         student.status === 'active' ? 'confirmed' : 'cancelled';
       const statusText = student.status === 'active' ? 'Active' : 'Inactive';

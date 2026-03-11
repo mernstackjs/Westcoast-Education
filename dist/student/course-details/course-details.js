@@ -1,4 +1,5 @@
 import HttpClient from '../../data/HttpClient.js';
+import { generateNextId } from '../../utils/idGenerator.js';
 const courseService = new HttpClient('courses');
 const bookingService = new HttpClient('bookings');
 function getCourseId() {
@@ -168,11 +169,9 @@ async function addBookingEvent(courseId) {
                     const { phone, address } = data;
                     try {
                         const allBookings = await bookingService.get();
-                        const nextId = allBookings.length > 0
-                            ? Math.max(...allBookings.map((b) => parseInt(String(b.id).replace('#BK-', '')) || 0)) + 1
-                            : 101;
+                        const nextBookingId = generateNextId(allBookings, '#BK-', 101);
                         const booking = {
-                            id: `#BK-${nextId}`,
+                            id: nextBookingId,
                             userId: user.id,
                             courseId: courseId,
                             status: 'pending',
@@ -182,11 +181,6 @@ async function addBookingEvent(courseId) {
                         };
                         try {
                             await bookingService.post(booking);
-                            // const response = await fetch('http://localhost:3001/bookings', {
-                            //   method: 'POST',
-                            //   headers: { 'Content-Type': 'application/json' },
-                            //   body: JSON.stringify(booking),
-                            // });
                             alert('Din bokning är skickad. Admin måste godkänna.');
                             modal.style.display = 'none';
                             form.reset();

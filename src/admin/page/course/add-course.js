@@ -1,6 +1,7 @@
-import { createTitle, createCard } from '../../../scripts/dom.js';
+import { createTitle, createCard } from '../../../../dist/scripts/dom.js';
+import AdminHttpClient from '../../admin_http_client.js';
 
-const COURSES_API_URL = 'http://localhost:3001/courses';
+const courseService = new AdminHttpClient('courses');
 
 const CLOUDINARY_CLOUD_NAME = 'dx74k8fal';
 const CLOUDINARY_UPLOAD_PRESET = 'Westcoast-Education';
@@ -136,13 +137,7 @@ export function addCoursePage(container) {
 
     // 3. Post to JSON Server
     try {
-      const response = await fetch(COURSES_API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(course),
-      });
-
-      if (!response.ok) throw new Error('Failed to save course');
+      await courseService.post(course);
 
       alert('Course saved successfully!');
       form.reset();
