@@ -7,8 +7,8 @@ export function renderHeader() {
     ? `
       <a href="/src/student/site/index.html" class="nav-link">Hem</a>
       <a href="/src/student/course/course.html" class="nav-link">Kurser</a>
-      <a href="#" class="nav-link">Mitt konto</a>
-      <a href="#" id="logoutBtn" class="nav-link">Logga ut</a>
+      <a href="/src/student/profile/profile.html" class="nav-link">Mitt konto</a>
+      <a href="#" id="logoutBtn" class="nav-link logout">Logga ut</a>
     `
     : `
       <a href="/src/student/site/index.html" class="nav-link">Hem</a>
