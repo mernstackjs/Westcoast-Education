@@ -42,6 +42,24 @@ ${navLinks}
 </header>
 `;
 
+  /* ==============================
+     MOBILE MENU LOGIC
+  ============================== */
+
+  const menuToggle = headerContainer.querySelector('.menu-toggle');
+  const navWrapper = headerContainer.querySelector('.nav-wrapper');
+  const navLinksElements = headerContainer.querySelectorAll('.nav-link');
+
+  menuToggle.addEventListener('click', () => {
+    navWrapper.classList.toggle('active');
+  });
+
+  navLinksElements.forEach((link) => {
+    link.addEventListener('click', () => {
+      navWrapper.classList.remove('active');
+    });
+  });
+
   if (user) {
     const logoutBtn = document.getElementById('logoutBtn');
 
