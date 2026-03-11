@@ -1,0 +1,186 @@
+.profile-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 30px;
+}
+
+/* Sidebar Card */
+.profile-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-height: 80px;
+  gap: 20px;
+}
+
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  background: var(--primary-color, #4a90e2);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+}
+
+.badge {
+  display: inline-block;
+  background: #eef2f7;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.info-item label {
+  display: block;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.info-item p {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Bookings */
+.bookings-section h3 {
+  margin-bottom: 20px;
+}
+
+.bookings-grid {
+  display: grid;
+  gap: 15px;
+}
+
+.booking-card {
+  background: white;
+  padding: 15px 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.status-pending {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #ff4d4d;
+  color: #ff4d4d;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-outline:hover {
+  background: #ff4d4d;
+  color: white;
+}
+
+.booking-details {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.booking-visual {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  background-color: #eee;
+  margin-right: 3rem;
+}
+.booking-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.booking-date {
+  display: flex;
+  margin-top: 1rem;
+  gap: 0.2rem;
+  justify-content: center;
+  align-items: center;
+}
+.course-info h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-color, #333);
+}
+
+.course-info p {
+  margin: 2px 0 0;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-confirmed {
+  background-color: #e6fcf5;
+  color: #0ca678;
+}
+
+.status-pending {
+  background-color: #fff9db;
+  color: #f39c12;
+}
+
+@media (max-width: 480px) {
+  .booking-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .booking-img {
+    width: 100%;
+    height: 120px;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-container {
+    grid-template-columns: 1fr;
+  }
+}
